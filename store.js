@@ -69,7 +69,11 @@ const initialTranslations = [
     { id: 61, key: 'buttons.highlight', langId: 2, value: 'Übersetzungen hervorheben' },
     { id: 62, key: 'modal.editTranslation', langId: 2, value: 'Übersetzung bearbeiten' },
     { id: 63, key: 'modal.enterTranslation', langId: 2, value: 'Übersetzung eingeben' },
-    { id: 64, key: 'buttons.cancel', langId: 2, value: 'Abbrechen' }
+    { id: 64, key: 'buttons.cancel', langId: 2, value: 'Abbrechen' },
+    { id: 65, key: 'buttons.darkTheme', langId: 1, value: 'Dark Theme' },
+    { id: 66, key: 'buttons.lightTheme', langId: 1, value: 'Light Theme' },
+    { id: 67, key: 'buttons.darkTheme', langId: 2, value: 'Dunkles Theme' },
+    { id: 68, key: 'buttons.lightTheme', langId: 2, value: 'Helles Theme' }
 ]
 
 const store = {

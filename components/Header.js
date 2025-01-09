@@ -1,7 +1,8 @@
 const Header = {
     data() {
         return {
-            isHighlightMode: false
+            isHighlightMode: false,
+            isDarkTheme: localStorage.getItem('darkTheme') === 'true'
         }
     },
     computed: {
@@ -19,6 +20,16 @@ const Header = {
         resetAll() {
             if (confirm(this.$t('messages.resetConfirm'))) {
                 store.resetToInitial()
+                
+                i18n.setLanguage('en')
+                
+                this.isDarkTheme = false
+                document.body.classList.remove('dark-theme')
+                localStorage.removeItem('darkTheme')
+                
+                if (this.isHighlightMode) {
+                    this.toggleHighlightMode()
+                }
             }
         },
         exportToFigma() {
@@ -39,6 +50,37 @@ const Header = {
             document.body.removeChild(link)
             window.URL.revokeObjectURL(url)
         },
+        handleTranslationClick(event) {
+            const element = event.target.closest('[data-translate-key]')
+            if (!element) return
+            
+            event.preventDefault()
+            event.stopPropagation()
+            
+            if (element.closest('button')) {
+                const button = element.closest('button')
+                const originalType = button.type
+                button.type = 'button'
+                
+                const key = element.getAttribute('data-translate-key')
+                window.showTranslationModal(key, event)
+                
+                setTimeout(() => {
+                    button.type = originalType
+                }, 100)
+                
+                return
+            }
+            
+            const key = element.getAttribute('data-translate-key')
+            window.showTranslationModal(key, event)
+        },
+        enableHighlightMode() {
+            document.addEventListener('click', this.handleTranslationClick, true)
+        },
+        disableHighlightMode() {
+            document.removeEventListener('click', this.handleTranslationClick, true)
+        },
         toggleHighlightMode() {
             this.isHighlightMode = !this.isHighlightMode
             document.body.classList.toggle('highlight-translations')
@@ -49,54 +91,59 @@ const Header = {
                 this.disableHighlightMode()
             }
         },
-        enableHighlightMode() {
-            document.addEventListener('click', this.handleTranslationClick)
-        },
-        disableHighlightMode() {
-            document.removeEventListener('click', this.handleTranslationClick)
-        },
-        handleTranslationClick(event) {
-            const element = event.target.closest('[data-translate-key]')
-            if (element) {
-                event.preventDefault()
-                event.stopPropagation()
-                const key = element.getAttribute('data-translate-key')
-                window.showTranslationModal(key, event)
-            }
+        toggleTheme() {
+            this.isDarkTheme = !this.isDarkTheme
+            document.body.classList.toggle('dark-theme')
+            localStorage.setItem('darkTheme', this.isDarkTheme)
+        }
+    },
+    mounted() {
+        if (this.isDarkTheme) {
+            document.body.classList.add('dark-theme')
         }
     },
     unmounted() {
         this.disableHighlightMode()
     },
     template: `
-        <div class="header fixed-top bg-light py-2 px-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex gap-2">
-                    <button class="btn btn-warning btn-sm" @click="resetAll">
+        <div class="header fixed-top py-2 px-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-warning btn-sm d-flex align-items-center gap-2" @click="resetAll">
                         <i class="bi bi-arrow-counterclockwise"></i>
-                        <span data-translate-key="buttons.reset">{{ $t('buttons.reset') }}</span>
+                        <span data-translate-key="buttons.reset" class="d-none d-sm-inline">{{ $t('buttons.reset') }}</span>
                     </button>
-                    <button class="btn btn-primary btn-sm" @click="exportToFigma">
+                    <button class="btn btn-primary btn-sm d-flex align-items-center gap-2" @click="exportToFigma">
                         <i class="bi bi-box-arrow-up-right"></i>
-                        <span data-translate-key="buttons.exportFigma">{{ $t('buttons.exportFigma') }}</span>
+                        <span data-translate-key="buttons.exportFigma" class="d-none d-sm-inline">{{ $t('buttons.exportFigma') }}</span>
                     </button>
                     <button 
-                        class="btn btn-sm" 
+                        class="btn btn-sm d-flex align-items-center gap-2" 
                         :class="isHighlightMode ? 'btn-success' : 'btn-outline-secondary'"
                         @click="toggleHighlightMode">
                         <i class="bi bi-translate"></i>
-                        <span data-translate-key="buttons.highlight">{{ $t('buttons.highlight') }}</span>
+                        <span data-translate-key="buttons.highlight" class="d-none d-sm-inline">{{ $t('buttons.highlight') }}</span>
                     </button>
                 </div>
-                <select class="form-select form-select-sm w-auto" 
-                        @change="changeLanguage($event.target.value)"
-                        :value="currentLanguage">
-                    <option v-for="lang in availableLanguages" 
-                            :key="lang.id" 
-                            :value="lang.code">
-                        {{ lang.name }}
-                    </option>
-                </select>
+                <div class="d-flex align-items-center gap-3">
+                    <button 
+                        class="btn btn-icon btn-sm"
+                        :class="isDarkTheme ? 'btn-light' : 'btn-dark'"
+                        @click="toggleTheme"
+                        :title="isDarkTheme ? $t('buttons.lightTheme') : $t('buttons.darkTheme')">
+                        <i class="bi" :class="isDarkTheme ? 'bi-sun' : 'bi-moon'"></i>
+                    </button>
+                    <select class="form-select form-select-sm" 
+                            @change="changeLanguage($event.target.value)"
+                            :value="currentLanguage"
+                            style="min-width: 100px">
+                        <option v-for="lang in availableLanguages" 
+                                :key="lang.id" 
+                                :value="lang.code">
+                            {{ lang.name }}
+                        </option>
+                    </select>
+                </div>
             </div>
         </div>
     `

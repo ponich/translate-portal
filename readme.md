@@ -1,3 +1,5 @@
+https://ponich.github.io/translate-portal
+
 # Translation Manager
 
 A simple web application for managing translations across multiple languages. Built with Vue.js 3 and Bootstrap 5.
