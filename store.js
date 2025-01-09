@@ -61,7 +61,15 @@ const initialTranslations = [
     { id: 53, key: 'messages.resetConfirm', langId: 1, value: 'Are you sure you want to reset all changes? This cannot be undone.' },
     { id: 54, key: 'buttons.reset', langId: 2, value: 'Alle Änderungen zurücksetzen' },
     { id: 55, key: 'buttons.exportFigma', langId: 2, value: 'Nach Figma exportieren' },
-    { id: 56, key: 'messages.resetConfirm', langId: 2, value: 'Sind Sie sicher, dass Sie alle Änderungen zurücksetzen möchten? Dies kann nicht rückgängig gemacht werden.' }
+    { id: 56, key: 'messages.resetConfirm', langId: 2, value: 'Sind Sie sicher, dass Sie alle Änderungen zurücksetzen möchten? Dies kann nicht rückgängig gemacht werden.' },
+    { id: 57, key: 'buttons.highlight', langId: 1, value: 'Highlight Translations' },
+    { id: 58, key: 'modal.editTranslation', langId: 1, value: 'Edit Translation' },
+    { id: 59, key: 'modal.enterTranslation', langId: 1, value: 'Enter translation' },
+    { id: 60, key: 'buttons.cancel', langId: 1, value: 'Cancel' },
+    { id: 61, key: 'buttons.highlight', langId: 2, value: 'Übersetzungen hervorheben' },
+    { id: 62, key: 'modal.editTranslation', langId: 2, value: 'Übersetzung bearbeiten' },
+    { id: 63, key: 'modal.enterTranslation', langId: 2, value: 'Übersetzung eingeben' },
+    { id: 64, key: 'buttons.cancel', langId: 2, value: 'Abbrechen' }
 ]
 
 const store = {

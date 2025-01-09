@@ -9,12 +9,14 @@ const app = Vue.createApp({
                 </main>
             </div>
         </div>
+        <translation-modal></translation-modal>
     `
 })
 
 // Регистрируем компоненты
 app.component('app-header', Header)
 app.component('sidebar', Sidebar)
+app.component('translation-modal', TranslationModal)
 
 const routes = [
     { 
@@ -42,4 +44,4 @@ const router = VueRouter.createRouter({
 
 app.use(router)
 app.use(i18nPlugin)
-app.mount('#app') 
+app.mount('#app')

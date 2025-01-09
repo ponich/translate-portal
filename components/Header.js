@@ -1,4 +1,9 @@
 const Header = {
+    data() {
+        return {
+            isHighlightMode: false
+        }
+    },
     computed: {
         availableLanguages() {
             return store.state.languages
@@ -33,7 +38,35 @@ const Header = {
             link.click()
             document.body.removeChild(link)
             window.URL.revokeObjectURL(url)
+        },
+        toggleHighlightMode() {
+            this.isHighlightMode = !this.isHighlightMode
+            document.body.classList.toggle('highlight-translations')
+            
+            if (this.isHighlightMode) {
+                this.enableHighlightMode()
+            } else {
+                this.disableHighlightMode()
+            }
+        },
+        enableHighlightMode() {
+            document.addEventListener('click', this.handleTranslationClick)
+        },
+        disableHighlightMode() {
+            document.removeEventListener('click', this.handleTranslationClick)
+        },
+        handleTranslationClick(event) {
+            const element = event.target.closest('[data-translate-key]')
+            if (element) {
+                event.preventDefault()
+                event.stopPropagation()
+                const key = element.getAttribute('data-translate-key')
+                window.showTranslationModal(key, event)
+            }
         }
+    },
+    unmounted() {
+        this.disableHighlightMode()
     },
     template: `
         <div class="header fixed-top bg-light py-2 px-3">
@@ -46,6 +79,13 @@ const Header = {
                     <button class="btn btn-primary btn-sm" @click="exportToFigma">
                         <i class="bi bi-box-arrow-up-right"></i>
                         <span data-translate-key="buttons.exportFigma">{{ $t('buttons.exportFigma') }}</span>
+                    </button>
+                    <button 
+                        class="btn btn-sm" 
+                        :class="isHighlightMode ? 'btn-success' : 'btn-outline-secondary'"
+                        @click="toggleHighlightMode">
+                        <i class="bi bi-translate"></i>
+                        <span data-translate-key="buttons.highlight">{{ $t('buttons.highlight') }}</span>
                     </button>
                 </div>
                 <select class="form-select form-select-sm w-auto" 

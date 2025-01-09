@@ -66,4 +66,58 @@ main {
 
 .table td {
     vertical-align: middle;
+}
+
+/* Translation highlight mode */
+.highlight-translations [data-translate-key] {
+    position: relative;
+    cursor: pointer;
+    background: rgba(255, 255, 0, 0.2);
+    border: 1px dashed #ffc107;
+    border-radius: 3px;
+    padding: 2px 4px;
+    z-index: 1;
+}
+
+.highlight-translations [data-translate-key]:hover {
+    background: rgba(255, 255, 0, 0.4);
+    border-color: #ff9800;
+    z-index: 1059;
+}
+
+.highlight-translations [data-translate-key]::after {
+    content: attr(data-translate-key);
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.highlight-translations [data-translate-key]:hover::after {
+    opacity: 1;
+}
+
+/* Translation Modal */
+.translation-modal {
+    z-index: 1060;
+    width: 400px;
+}
+
+.translation-modal .card {
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+}
+
+.translation-modal .card-body {
+    max-height: 400px;
+    overflow-y: auto;
 } 
