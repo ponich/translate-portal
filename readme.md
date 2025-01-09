@@ -1,34 +1,33 @@
-https://ponich.github.io/translate-portal
+## Overview
 
-# Translation Manager
+The Translation Manager is a simple web application built using Vue.js 3 and Bootstrap 5. It allows users to efficiently manage translations for various languages, making it a valuable tool for developers and content creators who need to handle multilingual content.
 
-A simple web application for managing translations across multiple languages. Built with Vue.js 3 and Bootstrap 5.
+### Features
 
+1. **Language Management**:
+   - Add new languages by specifying their code and name.
+   - Edit existing languages to update their details.
+   - Delete languages that are no longer needed.
 
-## Features
+2. **Translation Management**:
+   - Add new translations by providing a key and its corresponding value.
+   - Edit existing translations to make necessary changes.
+   - Delete translations that are outdated or incorrect.
+   - Filter translations by language to easily find specific entries.
+   - Export translations to JSON format for easy integration with other systems or for backup purposes.
 
-### Language Management
-- Add new languages with code and name
-- Edit existing languages
-- Delete languages
+3. **UI Features**:
+   - Responsive design that adapts to different screen sizes for a better user experience.
+   - Language switcher to easily change the displayed language.
+   - Reset functionality to revert changes made during the session.
+   - Figma export feature for designers to utilize the translations in design projects.
 
-### Translation Management
-- Add new translations with key and value
-- Edit existing translations
-- Delete translations
-- Filter translations by language
-- Export translations to JSON format
+### Technologies Used
 
-### UI Features
-- Responsive design
-- Language switcher
-- Reset functionality
-- Figma export
+- **Vue.js 3**: A progressive JavaScript framework for building user interfaces.
+- **Vue Router 4**: A routing library for Vue.js that enables navigation between different views.
+- **Bootstrap 5**: A popular CSS framework for developing responsive and mobile-first websites.
+- **Bootstrap Icons**: A library of icons that can be easily integrated into the application.
+- **Local Storage**: Used for data persistence, allowing the application to save user preferences and translations locally.
 
-## Technologies Used
-
-- Vue.js 3
-- Vue Router 4
-- Bootstrap 5
-- Bootstrap Icons
-- Local Storage for data persistence
+This application is ideal for teams and individuals who need to manage translations efficiently, ensuring that their content is accessible in multiple languages. The combination of Vue.js and Bootstrap provides a modern and user-friendly interface, making it easy to navigate and use.
