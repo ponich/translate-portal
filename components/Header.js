@@ -33,22 +33,39 @@ const Header = {
             }
         },
         exportToFigma() {
-            const exportData = {
-                languages: store.state.languages,
-                translations: store.state.translations,
-                timestamp: new Date().toISOString()
-            }
+            const tokensByLang = {}
             
-            const dataStr = JSON.stringify(exportData, null, 2)
-            const dataBlob = new Blob([dataStr], { type: 'application/json' })
-            const url = window.URL.createObjectURL(dataBlob)
-            const link = document.createElement('a')
-            link.href = url
-            link.download = `translations-figma-${new Date().toISOString().split('T')[0]}.json`
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-            window.URL.revokeObjectURL(url)
+            store.state.languages.forEach(lang => {
+                const translations = store.state.translations.filter(t => t.langId === lang.id)
+                tokensByLang[lang.code] = translations
+            })
+            
+            const tokens = {}
+            
+            Object.entries(tokensByLang).forEach(([langCode, translations]) => {
+                tokens[langCode] = {
+                    "$type": "string",
+                    "$description": `Translations for ${langCode} language`,
+                    ...translations.reduce((acc, translation) => {
+                        acc[translation.key] = {
+                            "$type": "string",
+                            "$value": translation.value,
+                            "$description": `Translation for key: ${translation.key}`
+                        }
+                        return acc
+                    }, {})
+                }
+            })
+            
+            const blob = new Blob([JSON.stringify(tokens, null, 2)], { type: 'application/design-tokens+json' })
+            const url = URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'translations.tokens.json'
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+            URL.revokeObjectURL(url)
         },
         handleTranslationClick(event) {
             const element = event.target.closest('[data-translate-key]')
